@@ -12,8 +12,14 @@ pipeline {
         }
         stage('Construyendo app') {
             steps {
-                sh "docker build -f Dockerfile.gotest"
+                sh "docker build . -f Dockerfile.gotest"
             }
+        }
+        stage('Probando app') {
+            steps {
+                sh "docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit"
+            }
+        }
     }
     //     stage('Push a DockerHub') {
     //         steps {
