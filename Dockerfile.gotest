@@ -1,0 +1,17 @@
+FROM golang:1.16-alpine
+
+# Instalando Git
+
+RUN apk update && apk add --no-cache git
+
+WORKDIR /app
+
+COPY go.mod go.sum ./
+
+RUN go mod download 
+
+# Copiamos el codigo desde el directorio actual al directorio de trabajo en el contenedor
+COPY . .
+
+# Ejecutamos tests
+CMD CGO_ENABLED=0 go test -v  ./...
